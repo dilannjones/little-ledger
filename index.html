@@ -46,7 +46,7 @@ const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).
 const VIEW_KEY='little-ledger-view-v1';
 const validTabs=['overview','bills','payday','activity','accounts'];
 let tab='bills';
-try{const view=JSON.parse(localStorage.getItem(VIEW_KEY)||'null');if(view&&validTabs.includes(view.tab))tab=view.tab;if(view&&/^\\d{4}-\\d{2}-\\d{2}$/.test(view.payday||'')){const parts=view.payday.split('-').map(Number),saved=new Date(parts[0],parts[1]-1,parts[2],12);const days=(Date.UTC(parts[0],parts[1]-1,parts[2])-Date.UTC(2026,10,20))/86400000;if(saved.getFullYear()===parts[0]&&saved.getMonth()===parts[1]-1&&saved.getDate()===parts[2]&&Number.isInteger(days/14))selectedPayday=saved;}}catch(e){}
+try{const view=JSON.parse(localStorage.getItem(VIEW_KEY)||'null');if(view&&validTabs.includes(view.tab))tab=view.tab;if(view&&/^\d{4}-\d{2}-\d{2}$/.test(view.payday||'')){const parts=view.payday.split('-').map(Number),saved=new Date(parts[0],parts[1]-1,parts[2],12);const days=(Date.UTC(parts[0],parts[1]-1,parts[2])-Date.UTC(2026,10,20))/86400000;if(saved.getFullYear()===parts[0]&&saved.getMonth()===parts[1]-1&&saved.getDate()===parts[2]&&Number.isInteger(days/14))selectedPayday=saved;}}catch(e){}
 const saveView=()=>{try{localStorage.setItem(VIEW_KEY,JSON.stringify({tab,payday:[selectedPayday.getFullYear(),String(selectedPayday.getMonth()+1).padStart(2,'0'),String(selectedPayday.getDate()).padStart(2,'0')].join('-')}))}catch(e){}};
 const paydayKey=()=>[selectedPayday.getFullYear(),String(selectedPayday.getMonth()+1).padStart(2,'0'),String(selectedPayday.getDate()).padStart(2,'0')].join('-');
 const paydayLabel=()=>selectedPayday.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
